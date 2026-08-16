@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "id": "renuo.pull-request-counter",
+  "name": "Pull Request Counter",
+  "version": "1.0.0",
+  "author": "Renuo AG",
+  "license": "MIT",
+  "description": "Open GitHub pull requests that need your attention, counted in the Omarchy bar.",
+  "homepage": "https://github.com/renuo/omarchy-pull-request-counter",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "Panel.qml"
+  },
+  "barWidget": {
+    "displayName": "Pull Requests",
+    "description": "GitHub pull requests waiting on you: review requests, unassigned PRs, and everything assigned to you.",
+    "category": "Development",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "refreshIntervalSec": 300,
+      "teams": "",
+      "scope": "",
+      "maximumAgeDays": 999,
+      "ignoredPrs": "",
+      "ignoredTitles": "",
+      "countGroups": "reviewRequested,teamReviewRequested,noReviewRequested,allReviewsDone,missingAssignee",
+      "urgentThreshold": 3,
+      "hideWhenEmpty": false,
+      "resultLimit": 50
+    },
+    "schema": [
+      {
+        "key": "refreshIntervalSec",
+        "type": "integer",
+        "label": "Refresh interval (seconds)",
+        "min": 30,
+        "max": 3600,
+        "step": 30,
+        "defaultValue": 300
+      },
+      {
+        "key": "teams",
+        "type": "string",
+        "label": "Teams (comma separated org/team-slug)",
+        "defaultValue": ""
+      },
+      {
+        "key": "scope",
+        "type": "string",
+        "label": "Only these owners (comma separated)",
+        "defaultValue": ""
+      },
+      {
+        "key": "maximumAgeDays",
+        "type": "integer",
+        "label": "Hide own PRs older than (days)",
+        "min": 1,
+        "max": 999,
+        "step": 1,
+        "defaultValue": 999
+      },
+      {
+        "key": "ignoredPrs",
+        "type": "string",
+        "label": "Ignored pull requests (owner/repo#number, comma separated)",
+        "defaultValue": ""
+      },
+      {
+        "key": "ignoredTitles",
+        "type": "string",
+        "label": "Ignore titles matching (regular expression)",
+        "defaultValue": ""
+      },
+      {
+        "key": "countGroups",
+        "type": "string",
+        "label": "Groups included in the bar count",
+        "defaultValue": "reviewRequested,teamReviewRequested,noReviewRequested,allReviewsDone,missingAssignee"
+      },
+      {
+        "key": "urgentThreshold",
+        "type": "integer",
+        "label": "Count that turns the badge urgent",
+        "min": 1,
+        "max": 99,
+        "step": 1,
+        "defaultValue": 3
+      },
+      {
+        "key": "hideWhenEmpty",
+        "type": "boolean",
+        "label": "Hide the widget when nothing is open",
+        "defaultValue": false
+      },
+      {
+        "key": "resultLimit",
+        "type": "integer",
+        "label": "Max pull requests fetched per query",
+        "min": 10,
+        "max": 100,
+        "step": 10,
+        "defaultValue": 50
+      }
+    ]
+  }
+}
