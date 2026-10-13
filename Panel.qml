@@ -312,6 +312,7 @@ Panel {
             // Panel, so they reach hero state through `hero` instead.
             iconComponent: Component {
               Text {
+                textFormat: Text.PlainText
                 text: Model.GITHUB_GLYPH
                 color: hero.foreground
                 font.family: hero.fontFamily
@@ -356,6 +357,7 @@ Panel {
               spacing: Style.spacing.labelGap
 
               Text {
+                textFormat: Text.PlainText
                 width: parent.width
                 text: github.errorText
                 color: root.urgent
@@ -365,6 +367,7 @@ Panel {
               }
 
               Text {
+                textFormat: Text.PlainText
                 visible: github.hintText !== ""
                 width: parent.width
                 text: github.hintText
@@ -376,6 +379,7 @@ Panel {
             }
 
             Text {
+              textFormat: Text.PlainText
               visible: github.errorText === "" && root.rows.length === 0
               width: parent.width
               text: github.connected ? "Nothing waiting on you." : "Loading…"
@@ -434,6 +438,7 @@ Panel {
             }
 
             Text {
+              textFormat: Text.PlainText
               width: parent.width
               text: "Which groups the bar number adds up."
               color: root.dim
@@ -508,6 +513,7 @@ Panel {
             }
 
             Text {
+              textFormat: Text.PlainText
               width: parent.width
               text: "Ignored pull requests stay in the list, greyed out, and drop out of the count. Right-click any row to add or remove it here."
               color: root.dim
@@ -638,6 +644,7 @@ Panel {
         spacing: Style.space(1)
 
         Text {
+          textFormat: Text.PlainText
           Layout.fillWidth: true
           text: Model.titleFor(prRow.pr)
           color: root.foreground
@@ -648,6 +655,7 @@ Panel {
         }
 
         Text {
+          textFormat: Text.PlainText
           Layout.fillWidth: true
           text: Model.metaFor(prRow.pr)
           color: root.dim
@@ -699,6 +707,7 @@ Panel {
 
       Text {
         id: checkBox
+        textFormat: Text.PlainText
         anchors.verticalCenter: parent.verticalCenter
         text: checkRow.checked ? "" : ""
         color: checkRow.checked ? root.foreground : root.dim
@@ -708,6 +717,7 @@ Panel {
 
       Text {
         id: checkLabel
+        textFormat: Text.PlainText
         anchors.verticalCenter: parent.verticalCenter
         width: Math.max(0, checkContent.width - checkContent.spacing - checkBox.implicitWidth)
         text: checkRow.label
@@ -746,6 +756,7 @@ Panel {
     onValueChanged: if (!field.activeFocus && field.text !== value) field.text = value
 
     Text {
+      textFormat: Text.PlainText
       text: settingText.label
       color: root.foreground
       font.family: root.fontFamily
@@ -753,6 +764,7 @@ Panel {
     }
 
     Text {
+      textFormat: Text.PlainText
       visible: settingText.description !== ""
       width: settingText.width
       text: settingText.description
@@ -786,6 +798,7 @@ Panel {
     }
 
     Text {
+      textFormat: Text.PlainText
       visible: settingText.errorText !== ""
       width: settingText.width
       text: settingText.errorText
@@ -821,6 +834,7 @@ Panel {
     Component.onDestruction: root.unregisterOption(settingNumber.optionIndex, settingNumber)
 
     Text {
+      textFormat: Text.PlainText
       text: settingNumber.label
       color: root.foreground
       font.family: root.fontFamily
@@ -828,6 +842,7 @@ Panel {
     }
 
     Text {
+      textFormat: Text.PlainText
       visible: settingNumber.description !== ""
       width: settingNumber.width
       text: settingNumber.description
