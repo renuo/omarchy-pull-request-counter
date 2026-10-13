@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -euo pipefail
+
+missing=()
+for tool in gh jq; do
+  command -v "$tool" >/dev/null 2>&1 || missing+=("$tool")
+done
+if ((${#missing[@]} > 0)); then
+  echo "setup: missing ${missing[*]}" >&2
+  echo "setup: sudo pacman -S github-cli jq" >&2
+  exit 1
+fi
