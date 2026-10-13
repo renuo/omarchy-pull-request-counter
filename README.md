@@ -179,8 +179,8 @@ omarchy restart shell
 Convenience scripts:
 
 ```bash
-bin/setup   # checks for the runtime dependencies
-bin/check   # validates the manifest and the shell scripts
+bin/setup   # checks for gh, jq, bats, node, ruby; installs bashcov
+bin/check   # validates the manifest, runs the tests, demands 100% line coverage
 bin/run     # installs into the shell, which hot-reloads it
 ```
 

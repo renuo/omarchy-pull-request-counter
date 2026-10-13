@@ -8,4 +8,20 @@ if command -v omarchy-plugin-validate >/dev/null 2>&1; then
   omarchy-plugin-validate .
 fi
 
-bash -n pull-requests.sh bin/*
+node --test \
+  --experimental-test-coverage \
+  --test-coverage-include='Model.js' \
+  --test-coverage-lines=100 \
+  test/*.test.js
+
+rm -rf coverage/bash
+bundle exec bashcov --root . -- "$(command -v bats)" test/
+
+# bashcov never applies SimpleCov's minimum_coverage, so enforce it here.
+uncovered=$(jq -r '.[].coverage | to_entries[] | .key as $file
+  | .value.lines | to_entries[] | select(.value == 0) | "\($file):\(.key + 1)"' coverage/bash/.resultset.json)
+if [[ -n $uncovered ]]; then
+  echo "check: shell lines without coverage:" >&2
+  echo "$uncovered" >&2
+  exit 1
+fi
