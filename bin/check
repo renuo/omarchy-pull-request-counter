@@ -14,14 +14,17 @@ node --test \
   --test-coverage-lines=100 \
   test/*.test.js
 
-rm -rf coverage/bash
-bundle exec bashcov --root . -- "$(command -v bats)" test/
+# Outside the checkout: kcov leaves symlinks behind, and the plugin validator
+# rejects any symlink inside the plugin folder.
+report=$(mktemp -d)
+kcov --include-path="$PWD/pull-requests.sh" "$report" "$(command -v bats)" test/
 
-# bashcov never applies SimpleCov's minimum_coverage, so enforce it here.
-uncovered=$(jq -r '.[].coverage | to_entries[] | .key as $file
-  | .value.lines | to_entries[] | select(.value == 0) | "\($file):\(.key + 1)"' coverage/bash/.resultset.json)
+# kcov only reports coverage; it has no threshold of its own.
+uncovered=$(jq -r '.coverage | to_entries[] | .key as $file | .value | to_entries[]
+  | select(.value | tostring | startswith("0")) | "\($file):\(.key)"' "$report/bats/codecov.json")
 if [[ -n $uncovered ]]; then
-  echo "check: shell lines without coverage:" >&2
+  echo "check: shell lines without coverage, see $report/index.html" >&2
   echo "$uncovered" >&2
   exit 1
 fi
+rm -rf "$report"

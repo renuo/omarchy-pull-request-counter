@@ -160,6 +160,12 @@ Run the helper by hand to see exactly what the widget sees:
 
 ## Development
 
+On top of the requirements above, development needs:
+
+- `bats` — `sudo pacman -S bash-bats`
+- `kcov` — `yay -S kcov`
+- `node` — `mise use -g node`
+
 Edit here, then `bin/run` to push the changes into the plugin directory —
 the shell watches it and hot-reloads on write. If a reload ever fails to take:
 
@@ -169,7 +175,8 @@ omarchy-shell shell rescanPlugins
 
 One exception worth knowing: `Model.js` is a `.pragma library`, and the QML
 engine caches those per URL for the life of the process. Edits to `Panel.qml`,
-`Service.qml`, `manifest.json`, and `pull-requests.sh` hot-reload; edits to
+`Service.qml`, `manifest.json`, `pull-requests.sh`, `pull-request-fields.graphql`
+and `transform.jq` hot-reload; edits to
 `Model.js` need a restart:
 
 ```bash
@@ -179,14 +186,14 @@ omarchy restart shell
 Convenience scripts:
 
 ```bash
-bin/setup   # checks for gh, jq, bats, node, ruby; installs bashcov
+bin/setup   # checks that every tool above is installed
 bin/check   # validates the manifest, runs the tests, demands 100% line coverage
 bin/run     # installs into the shell, which hot-reloads it
 ```
 
 `Model.js` is tested with Node's built-in test runner and coverage;
 `pull-requests.sh` with bats against a fake `gh` in `test/fakebin`, measured by
-bashcov. The QML files have no line coverage tool, which is one more reason to
+kcov. The QML files have no line coverage tool, which is one more reason to
 keep logic in `Model.js`.
 
 QML errors go to the shell's log:
@@ -203,7 +210,9 @@ Layout:
 | `Panel.qml` | Bar button plus the popup — the `barWidget` entry point |
 | `Service.qml` | Polling loop, the one subprocess, parsed state |
 | `Model.js` | Group metadata, JSON shaping, ignore rules, options cursor order |
-| `pull-requests.sh` | The GraphQL query and its transform into widget JSON |
+| `pull-requests.sh` | Builds the GraphQL query, calls `gh`, reports failures |
+| `pull-request-fields.graphql` | The fields fetched for every pull request |
+| `transform.jq` | Shapes the GraphQL response into the widget's groups |
 | `test/` | Node tests for `Model.js`, bats tests for `pull-requests.sh` |
 
 ## License
