@@ -71,8 +71,7 @@ IFS=',' read -ra team_list <<<"$teams"
 for team in "${team_list[@]}"; do
   team="${team//[[:space:]]/}"
   [[ -n $team ]] || continue
-  team_queries+="  teamReview${team_index}: search(query: $(json_string "is:open is:pr team-review-requested:${team} archived:false"), type: ISSUE, first: ${limit}) { nodes { ...prFields } }
-"
+  team_queries+="  teamReview${team_index}: search(query: $(json_string "is:open is:pr team-review-requested:${team} archived:false"), type: ISSUE, first: ${limit}) { nodes { ...prFields } }"$'\n'
   team_index=$((team_index + 1))
 done
 

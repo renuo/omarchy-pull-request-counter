@@ -1,0 +1,7 @@
+#!/bin/bash
+# Stands in for the GitHub CLI: records the query it was sent and replays
+# whatever the test staged in FAKE_GH_STDOUT / FAKE_GH_STDERR / FAKE_GH_EXIT.
+[[ -n ${FAKE_GH_ARGS:-} ]] && printf '%s\n' "$@" >"$FAKE_GH_ARGS"
+[[ -n ${FAKE_GH_STDERR:-} ]] && printf '%s\n' "$FAKE_GH_STDERR" >&2
+[[ -n ${FAKE_GH_STDOUT:-} ]] && cat "$FAKE_GH_STDOUT"
+exit "${FAKE_GH_EXIT:-0}"

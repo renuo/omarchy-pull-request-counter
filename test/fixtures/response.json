@@ -1,0 +1,28 @@
+{
+  "data": {
+    "viewer": { "login": "me" },
+    "reviewRequested": { "nodes": [
+      { "title": "Mine to review", "number": 1, "url": "https://github.com/renuo/app/pull/1", "isDraft": false, "createdAt": "DAYS_AGO 2", "author": { "login": "ann" }, "repository": { "nameWithOwner": "renuo/app" }, "assignees": { "totalCount": 0 }, "reviewRequests": { "totalCount": 1 }, "reviews": { "totalCount": 0 } },
+      { "title": "Also the team's", "number": 2, "url": "https://github.com/renuo/app/pull/2", "isDraft": false, "createdAt": "DAYS_AGO 1", "author": { "login": "bob" }, "repository": { "nameWithOwner": "renuo/app" }, "assignees": { "totalCount": 0 }, "reviewRequests": { "totalCount": 2 }, "reviews": { "totalCount": 0 } },
+      { "title": "Elsewhere", "number": 3, "url": "https://github.com/Other/lib/pull/3", "isDraft": true, "createdAt": "DAYS_AGO 3", "author": null, "repository": { "nameWithOwner": "Other/lib" }, "assignees": { "totalCount": 0 }, "reviewRequests": { "totalCount": 1 }, "reviews": { "totalCount": 0 } },
+      {}
+    ] },
+    "assigned": { "nodes": [
+      { "title": "Waiting for a reviewer", "number": 10, "url": "https://github.com/renuo/app/pull/10", "isDraft": false, "createdAt": "DAYS_AGO 4", "author": { "login": "me" }, "repository": { "nameWithOwner": "renuo/app" }, "assignees": { "totalCount": 1 }, "reviewRequests": { "totalCount": 0 }, "reviews": { "totalCount": 0 } },
+      { "title": "Reviewed", "number": 11, "url": "https://github.com/renuo/app/pull/11", "isDraft": false, "createdAt": "DAYS_AGO 5", "author": { "login": "me" }, "repository": { "nameWithOwner": "renuo/app" }, "assignees": { "totalCount": 1 }, "reviewRequests": { "totalCount": 0 }, "reviews": { "totalCount": 2 } },
+      { "title": "Under review", "number": 12, "url": "https://github.com/renuo/app/pull/12", "isDraft": false, "createdAt": "DAYS_AGO 6", "author": { "login": "me" }, "repository": { "nameWithOwner": "renuo/app" }, "assignees": { "totalCount": 1 }, "reviewRequests": { "totalCount": 1 }, "reviews": { "totalCount": 1 } },
+      { "title": "Ancient", "number": 13, "url": "https://github.com/renuo/app/pull/13", "isDraft": false, "createdAt": "DAYS_AGO 40", "author": { "login": "me" }, "repository": { "nameWithOwner": "renuo/app" }, "assignees": { "totalCount": 1 }, "reviewRequests": { "totalCount": 0 }, "reviews": { "totalCount": 0 } }
+    ] },
+    "authored": { "nodes": [
+      { "title": "Nobody assigned", "number": 20, "url": "https://github.com/renuo/app/pull/20", "isDraft": false, "createdAt": "", "author": { "login": "me" }, "repository": { "nameWithOwner": "renuo/app" }, "assignees": { "totalCount": 0 }, "reviewRequests": { "totalCount": 0 }, "reviews": { "totalCount": 0 } },
+      { "title": "Assigned", "number": 21, "url": "https://github.com/renuo/app/pull/21", "isDraft": false, "createdAt": "DAYS_AGO 1", "author": { "login": "me" }, "repository": { "nameWithOwner": "renuo/app" }, "assignees": { "totalCount": 1 }, "reviewRequests": { "totalCount": 0 }, "reviews": { "totalCount": 0 } }
+    ] },
+    "teamReview0": { "nodes": [
+      { "title": "Also the team's", "number": 2, "url": "https://github.com/renuo/app/pull/2", "isDraft": false, "createdAt": "DAYS_AGO 1", "author": { "login": "bob" }, "repository": { "nameWithOwner": "renuo/app" }, "assignees": { "totalCount": 0 }, "reviewRequests": { "totalCount": 2 }, "reviews": { "totalCount": 0 } }
+    ] },
+    "teamReview1": { "nodes": [
+      { "title": "Also the team's", "number": 2, "url": "https://github.com/renuo/app/pull/2", "isDraft": false, "createdAt": "DAYS_AGO 1", "author": { "login": "bob" }, "repository": { "nameWithOwner": "renuo/app" }, "assignees": { "totalCount": 0 }, "reviewRequests": { "totalCount": 2 }, "reviews": { "totalCount": 0 } },
+      { "title": "Only the team's", "number": 30, "url": "https://github.com/renuo/ops/pull/30", "isDraft": false, "createdAt": "DAYS_AGO 2" }
+    ] }
+  }
+}

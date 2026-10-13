@@ -184,6 +184,11 @@ bin/check   # validates the manifest, runs the tests, demands 100% line coverage
 bin/run     # installs into the shell, which hot-reloads it
 ```
 
+`Model.js` is tested with Node's built-in test runner and coverage;
+`pull-requests.sh` with bats against a fake `gh` in `test/fakebin`, measured by
+bashcov. The QML files have no line coverage tool, which is one more reason to
+keep logic in `Model.js`.
+
 QML errors go to the shell's log:
 
 ```bash
@@ -199,6 +204,7 @@ Layout:
 | `Service.qml` | Polling loop, the one subprocess, parsed state |
 | `Model.js` | Group metadata, JSON shaping, ignore rules, options cursor order |
 | `pull-requests.sh` | The GraphQL query and its transform into widget JSON |
+| `test/` | Node tests for `Model.js`, bats tests for `pull-requests.sh` |
 
 ## License
 
