@@ -278,3 +278,31 @@ describe("pathFromUrl", () => {
     assert.equal(Model.pathFromUrl("file:///a/%E0%A4%A"), "/a/%E0%A4%A")
   })
 })
+
+// The url comes from the API response and goes straight to the desktop's URL
+// handler, which would just as happily open file:// or a custom scheme.
+describe("pullRequestUrl", () => {
+  it("passes a GitHub pull request link through", () => {
+    assert.equal(Model.pullRequestUrl(pr({ url: "https://github.com/o/r/pull/1" })), "https://github.com/o/r/pull/1")
+  })
+
+  it("refuses anything that does not open on github.com over https", () => {
+    for (const url of [
+      "file:///etc/passwd",
+      "javascript:alert(1)",
+      "steam://run/1",
+      "http://github.com/o/r/pull/1",
+      "https://github.com.attacker.example/o/r/pull/1",
+      "https://attacker.example/https://github.com/",
+      " https://github.com/o/r/pull/1",
+      "",
+    ]) {
+      assert.equal(Model.pullRequestUrl(pr({ url })), "", url)
+    }
+  })
+
+  it("refuses a missing pull request or url", () => {
+    assert.equal(Model.pullRequestUrl(null), "")
+    assert.equal(Model.pullRequestUrl({}), "")
+  })
+})
