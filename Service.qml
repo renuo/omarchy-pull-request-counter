@@ -65,8 +65,9 @@ Item {
   }
 
   function openPullRequest(pr) {
-    if (!pr || !pr.url) return
-    Qt.openUrlExternally(String(pr.url))
+    var url = Model.pullRequestUrl(pr)
+    if (url === "") return
+    Qt.openUrlExternally(url)
   }
 
   function openGithubPulls() {

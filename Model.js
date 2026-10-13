@@ -276,6 +276,13 @@ function totalCount(groups) {
   return total
 }
 
+// The url arrives in the API response and goes to the desktop's URL handler,
+// which would open file:// or any custom scheme just as willingly.
+function pullRequestUrl(pr) {
+  var url = String((pr && pr.url) || "")
+  return url.indexOf("https://github.com/") === 0 ? url : ""
+}
+
 function titleFor(pr) {
   if (!pr) return ""
   return "#" + pr.number + "  " + String(pr.title || "")
