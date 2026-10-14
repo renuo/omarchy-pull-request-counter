@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -euo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+if command -v omarchy-plugin-validate >/dev/null 2>&1; then
+  omarchy-plugin-validate .
+fi
+
+node --test \
+  --experimental-test-coverage \
+  --test-coverage-include='Model.js' \
+  --test-coverage-lines=100 \
+  test/*.test.js
+
+# Outside the checkout: kcov leaves symlinks behind, and the plugin validator
+# rejects any symlink inside the plugin folder.
+report=$(mktemp -d)
+kcov --include-path="$PWD/pull-requests.sh" "$report" "$(command -v bats)" test/
+
+# kcov only reports coverage; it has no threshold of its own.
+uncovered=$(jq -r '.coverage | to_entries[] | .key as $file | .value | to_entries[]
+  | select(.value | tostring | startswith("0")) | "\($file):\(.key)"' "$report/bats/codecov.json")
+if [[ -n $uncovered ]]; then
+  echo "check: shell lines without coverage, see $report/index.html" >&2
+  echo "$uncovered" >&2
+  exit 1
+fi
+rm -rf "$report"

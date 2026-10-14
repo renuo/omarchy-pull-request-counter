@@ -1,0 +1,12 @@
+fragment prFields on PullRequest {
+  title
+  number
+  url
+  isDraft
+  createdAt
+  author { login }
+  repository { nameWithOwner }
+  assignees(first: 1) { totalCount }
+  reviewRequests(first: 1) { totalCount }
+  reviews(first: 1) { totalCount }
+}

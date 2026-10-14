@@ -27,7 +27,7 @@ mkdir -p "$TARGET_DIR"
 
 if command -v rsync >/dev/null 2>&1; then
   rsync -a --delete \
-    --exclude '.git' \
+    --exclude '.*' \
     --exclude 'bin' \
     --exclude 'test' \
     "$SOURCE_DIR"/ "$TARGET_DIR"/
@@ -35,7 +35,7 @@ else
   rm -rf "${TARGET_DIR:?}"/*
   for entry in "$SOURCE_DIR"/*; do
     case "${entry##*/}" in
-    .git | bin | test) continue ;;
+    bin | test) continue ;;
     esac
     cp -r "$entry" "$TARGET_DIR"/
   done

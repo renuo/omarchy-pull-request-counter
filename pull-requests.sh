@@ -52,18 +52,8 @@ command -v gh >/dev/null 2>&1 ||
 
 # ------------------------------------------------------------------ the query
 
-pr_fields='fragment prFields on PullRequest {
-  title
-  number
-  url
-  isDraft
-  createdAt
-  author { login }
-  repository { nameWithOwner }
-  assignees(first: 1) { totalCount }
-  reviewRequests(first: 1) { totalCount }
-  reviews(first: 1) { totalCount }
-}'
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+pr_fields=$(<"$here/pull-request-fields.graphql")
 
 team_queries=""
 team_index=0
@@ -71,8 +61,7 @@ IFS=',' read -ra team_list <<<"$teams"
 for team in "${team_list[@]}"; do
   team="${team//[[:space:]]/}"
   [[ -n $team ]] || continue
-  team_queries+="  teamReview${team_index}: search(query: $(json_string "is:open is:pr team-review-requested:${team} archived:false"), type: ISSUE, first: ${limit}) { nodes { ...prFields } }
-"
+  team_queries+="  teamReview${team_index}: search(query: $(json_string "is:open is:pr team-review-requested:${team} archived:false"), type: ISSUE, first: ${limit}) { nodes { ...prFields } }"$'\n'
   team_index=$((team_index + 1))
 done
 
@@ -124,62 +113,4 @@ jq -n \
   --argjson data "$response" \
   --arg scope "$scope" \
   --argjson maxAge "$max_age_days" \
-  '
-  def trimmed_list: (. // "") | split(",") | map(sub("^\\s+"; "") | sub("\\s+$"; "")) | map(select(length > 0));
-
-  def to_pr($now):
-    (.repository.nameWithOwner // "") as $repo
-    | {
-        title: (.title // ""),
-        number: (.number // 0),
-        url: (.url // ""),
-        repo: $repo,
-        owner: ($repo | split("/") | .[0] // ""),
-        author: (.author.login // "ghost"),
-        draft: (.isDraft // false),
-        createdAt: (.createdAt // ""),
-        ageInDays: (if (.createdAt // "") == "" then 0
-                    else ((($now - (.createdAt | fromdateiso8601)) / 86400) | floor) end),
-        assigneeCount: (.assignees.totalCount // 0),
-        reviewRequestCount: (.reviewRequests.totalCount // 0),
-        reviewCount: (.reviews.totalCount // 0)
-      };
-
-  def pulls($key; $now): [ (($data.data // {})[$key].nodes // [])[] | select(.url != null) | to_pr($now) ];
-  def in_scope($scopes):
-    map(select(($scopes | length) == 0
-               or ((.owner | ascii_downcase) as $owner | ($scopes | index($owner)) != null)));
-  def young($max): map(select(.ageInDays < $max));
-  def newest_first: sort_by(.createdAt) | reverse;
-  def by_url: group_by(.url) | map(.[0]);
-
-  now as $now
-  | ($scope | trimmed_list | map(ascii_downcase)) as $scopes
-  | ([ ($data.errors // [])[] | .message ] | join("; ")) as $gqlError
-  | pulls("reviewRequested"; $now) as $reviewRequested
-  | pulls("assigned"; $now) as $assigned
-  | pulls("authored"; $now) as $authored
-  | ([ ($data.data // {}) | to_entries[] | select(.key | startswith("teamReview")) | .value.nodes[]?
-       | select(.url != null) | to_pr($now) ] | by_url) as $teamReview
-  | ($teamReview | map(.url)) as $teamUrls
-  | {
-      ok: true,
-      login: (($data.data // {}).viewer.login // ""),
-      error: $gqlError,
-      hint: "",
-      groups: [
-        { key: "reviewRequested",
-          prs: ($reviewRequested | map(select((.url as $u | $teamUrls | index($u)) == null)) | in_scope($scopes) | newest_first) },
-        { key: "teamReviewRequested",
-          prs: ($teamReview | in_scope($scopes) | newest_first) },
-        { key: "noReviewRequested",
-          prs: ($assigned | map(select(.reviewRequestCount == 0 and .reviewCount == 0)) | in_scope($scopes) | young($maxAge) | newest_first) },
-        { key: "allReviewsDone",
-          prs: ($assigned | map(select(.reviewRequestCount == 0 and .reviewCount > 0)) | in_scope($scopes) | young($maxAge) | newest_first) },
-        { key: "missingAssignee",
-          prs: ($authored | map(select(.assigneeCount == 0)) | in_scope($scopes) | young($maxAge) | newest_first) },
-        { key: "allAssigned",
-          prs: ($assigned | in_scope($scopes) | young($maxAge) | newest_first) }
-      ]
-    }
-  '
+  -f "$here/transform.jq"
