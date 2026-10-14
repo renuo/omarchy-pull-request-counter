@@ -37,10 +37,10 @@ plugin borrows it and stores nothing of its own.
 ```bash
 git clone https://github.com/renuo/omarchy-pull-request-counter.git
 cd omarchy-pull-request-counter
-bin/run
+bin/install
 ```
 
-`bin/run` copies the plugin into `~/.config/omarchy/plugins/renuo.pull-request-counter/`,
+`bin/install` copies the plugin into `~/.config/omarchy/plugins/renuo.pull-request-counter/`,
 rescans, and enables it in the right-hand bar section. Move it elsewhere with:
 
 ```bash
@@ -166,7 +166,7 @@ On top of the requirements above, development needs:
 - `kcov` — `yay -S kcov`
 - `node` — `mise use -g node`
 
-Edit here, then `bin/run` to push the changes into the plugin directory —
+Edit here, then `bin/install` to push the changes into the plugin directory —
 the shell watches it and hot-reloads on write. If a reload ever fails to take:
 
 ```bash
@@ -188,7 +188,7 @@ Convenience scripts:
 ```bash
 bin/setup   # checks that every tool above is installed
 bin/check   # validates the manifest, runs the tests, demands 100% line coverage
-bin/run     # installs into the shell, which hot-reloads it
+bin/install # installs into the shell, which hot-reloads it
 ```
 
 `Model.js` is tested with Node's built-in test runner and coverage;
