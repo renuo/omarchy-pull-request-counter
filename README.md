@@ -22,6 +22,8 @@ Click it and the panel lists every pull request, grouped:
 | Missing assignee | Authored by you, not a draft, nobody assigned |
 | Assigned to me | Everything `assignee:@me` |
 
+<img src="docs/panel.png" width="480" alt="The panel listing pull requests to review">
+
 ## Requirements
 
 - Omarchy 4 (the Quickshell-based `omarchy-shell`)
@@ -85,6 +87,8 @@ the browser extension's options page, rebuilt out of the shell's own controls.
 There is no save button: every control writes straight back to this widget's
 entry in `~/.config/omarchy/shell.json`, and the widget re-reads it from there,
 so the form and the file can never disagree.
+
+<img src="docs/options.png" width="480" alt="The options form">
 
 The form is driven by the same cursor as the list, because Qt's Tab traversal
 does not reach into these layer-shell panels:
@@ -214,6 +218,7 @@ Layout:
 | `pull-request-fields.graphql` | The fields fetched for every pull request |
 | `transform.jq` | Shapes the GraphQL response into the widget's groups |
 | `test/` | Node tests for `Model.js`, bats tests for `pull-requests.sh` |
+| `docs/` | Screenshots for this README, left out of the installed plugin |
 
 ## License
 
